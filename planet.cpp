@@ -6,7 +6,6 @@
 //  Copyright © 2019 Keyne Kassapa. All rights reserved.
 //
 
-#include "planet.hpp"
 #include <iostream>
 
 // Lib includes
@@ -14,16 +13,16 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include "../SOIL2/SOIL2.h"
+// #include "SOIL2/SOIL2.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 // local includes
-#include "shader.h"
-#include "camera.h"
-#include "model.h"
+#include "planet/shader.h"
+#include "planet/camera.h"
+#include "planet/model.h"
 
 const GLint WIDTH = 1400, HEIGHT = 800;
 const double PI = 3.141592653589793238463;
@@ -49,7 +48,7 @@ GLfloat lastFrame = 0.0f;
 
 GLfloat speed = 1.0f;
 
-int planet() {
+int main(int argc, const char * argv[]) {
     
     bool move = true;
     glfwInit();
@@ -353,7 +352,7 @@ int planet() {
     
     glfwTerminate( );
     return 0;
-};
+}
 
 
 void DoMovement() {
