@@ -97,7 +97,7 @@ int main(int argc, const char * argv[]) {
     Model jupiterModel("resources/models/jupiter/jupiter.obj");
     Model saturnModel("resources/models/saturn/13906_Saturn_v1_l3.obj");
     Model uranusModel("resources/models/uranus/13907_Uranus_v2_l3.obj");
-    Model neptuneModel("resources/models/neptune/13908_Neptune_v2_l3.obj");
+    Model neptuneModel("resources/models/neptune/13908_Neptune_V2_l3.obj");
     
 //    glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
     
