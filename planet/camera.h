@@ -25,7 +25,7 @@ enum Camera_Movement {
 };
 
 // Default camera values
-const GLfloat YAW        = -90.0f;
+const GLfloat YAW        = -135.0f;
 const GLfloat PITCH      =  0.0f;
 GLfloat SPEED      =  5.0f;
 const GLfloat SENSITIVTY =  0.05f; 
@@ -35,7 +35,7 @@ const GLfloat ZOOM       =  45.0f;
 class Camera {
 public:
     // Vectors
-    Camera( glm::vec3 position = glm::vec3( 0.0f, 0.0f, 0.0f ), glm::vec3 up = glm::vec3( 0.0f, 1.0f, 0.0f ), GLfloat yaw = YAW, GLfloat pitch = PITCH ) : front( glm::vec3( 0.0f, 0.0f, -1.0f ) ), movementSpeed( SPEED ), mouseSensitivity( SENSITIVTY ), zoom( ZOOM ) {
+    Camera( glm::vec3 position = glm::vec3( 0.0f, 0.0f, 0.0f ), glm::vec3 up = glm::vec3( 0.0f, 1.0f, 0.0f ), GLfloat yaw = YAW, GLfloat pitch = PITCH ) : front( glm::vec3( 0.0f, 0.0f, 0.0f ) ), movementSpeed( SPEED ), mouseSensitivity( SENSITIVTY ), zoom( ZOOM ) {
         this->position = position;
         this->worldUp = up;
         this->yaw = yaw;
@@ -44,7 +44,7 @@ public:
     }
     
     // Scalar
-    Camera( GLfloat posX, GLfloat posY, GLfloat posZ, GLfloat upX, GLfloat upY, GLfloat upZ, GLfloat yaw, GLfloat pitch ) : front( glm::vec3( 0.0f, 0.0f, -1.0f ) ), movementSpeed( SPEED ), mouseSensitivity( SENSITIVTY ), zoom( ZOOM ) {
+    Camera( GLfloat posX, GLfloat posY, GLfloat posZ, GLfloat upX, GLfloat upY, GLfloat upZ, GLfloat yaw, GLfloat pitch ) : front( glm::vec3( 0.0f, 0.0f, 0.0f ) ), movementSpeed( SPEED ), mouseSensitivity( SENSITIVTY ), zoom( ZOOM ) {
         this->position = glm::vec3( posX, posY, posZ );
         this->worldUp = glm::vec3( upX, upY, upZ );
         this->yaw = yaw;

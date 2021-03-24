@@ -34,7 +34,7 @@ void MouseCallback( GLFWwindow *window, double xPos, double yPos );
 void DoMovement( );
 
 // Camera
-Camera camera( glm::vec3( 30.0f, 0.0f, 30.0f ) );
+Camera camera( glm::vec3( 20.0f, 0.0f, 20.0f ));
 bool keys[1024];
 GLfloat lastX = 400, lastY = 300;
 bool firstMouse = true;
@@ -46,7 +46,7 @@ glm::vec3 lightPos( 0.0f, 0.0f, 0.0f );
 GLfloat deltaTime = 0.0f;
 GLfloat lastFrame = 0.0f;
 
-GLfloat speed = 1.0f;
+GLfloat speed = 60.0f;
 
 int main(int argc, const char * argv[]) {
     
@@ -58,7 +58,7 @@ int main(int argc, const char * argv[]) {
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
     
-    GLFWwindow *window = glfwCreateWindow(WIDTH, HEIGHT, "learn Opengl", nullptr, nullptr);
+    GLFWwindow *window = glfwCreateWindow(WIDTH, HEIGHT, "Solar System", nullptr, nullptr);
     
     if ( nullptr == window )
     {
@@ -120,7 +120,7 @@ int main(int argc, const char * argv[]) {
         
         
         glm::mat4 view(1);
-        view = camera.GetViewMatrix( );
+        view = camera.GetViewMatrix();
         
         directionalShader.Use( );
         
@@ -213,7 +213,7 @@ int main(int argc, const char * argv[]) {
         }
         
         if (cameraType == "Earth") {
-            camera.SetPosition(glm::vec3(x + 0.5f, -0.5f, y+0.5f));
+            camera.SetPosition(glm::vec3(x + 0.5f, 0.0f, y+0.5f));
         }
         
         model = glm::scale( model, glm::vec3( 0.5f * scale ) );
@@ -297,7 +297,7 @@ int main(int argc, const char * argv[]) {
         }
         
         if (cameraType == "Uranus") {
-            camera.SetPosition(glm::vec3(x + 0.5f, 0.0f, y+2.0f));
+            camera.SetPosition(glm::vec3(x + 0.5f, 0.0f, y+0.5f));
         }
         
         model = glm::scale( model, glm::vec3( 0.03f * scale ) );
