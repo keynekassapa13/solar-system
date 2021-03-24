@@ -12,6 +12,7 @@ newmtl 13907_Uranus_rings
 	Kd 0.6510 0.6510 0.6510
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.6510 0.6510 0.6510
+	map_Kd 13907_Uranus_Rings_diff.jpg
 
 newmtl 13907_Uranus_planet
 	Ns 10.0000
@@ -24,5 +25,4 @@ newmtl 13907_Uranus_planet
 	Kd 1.0000 1.0000 1.0000
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka 13907_Uranus_planet_diff.JPG
-	map_Kd 13907_Uranus_planet_diff.JPG
+	map_Kd 13907_Uranus_planet_diff.jpg
