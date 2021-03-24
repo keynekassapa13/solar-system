@@ -1,22 +1,35 @@
 
-# Installation
+# Dependencies
+To compile and develope this projects, following dependencies are needed:
+- [OpenGL](http://www.prinmath.com/csci5229/misc/install.html)
+- GLEW, GLFW and Assimp
+```
+sudo apt install glew glfw assimp
+```
+Those above script varies as your distro are different. For example of Arch user: `sudo pacman -S glew glfw assimp`
+- [SOIL2](https://github.com/SpartanJ/SOIL2) (Simple OpenGL Image Library 2)
+- [Cmake](https://snapcraft.io/cmake) (For building SOIL2):
 
-The tool that I used to perform this code is XCode.
+# Building and compilation
+## Building SOIL2:
+1. Clone the repo
+2. Download [premake5](https://premake.github.io/download.html#v5)
+3. Copy premake5 into SOIL2 directory, where premake5.lua is located
+4. Run `./premake5 gmake2`
+5. Run `cd make/linux`
+6. Run `sudo make`
 
-1. Install OpenGL. (http://www.prinmath.com/csci5229/misc/install.html)
-2. Install GLFW. On Mac, run the 'brew install glfw3' in the terminal.
-3. Install GLEW. On Mac, run the 'brew install glew' in the terminal.
-4. Install Assimp. On Mac, run the 'brew install assimp' in the terminal.
-5. Add header search paths. On Mac, the configuration is in project/build settings/search paths
-6. Link Libraries libglfw, libglew, libassimp, and OpenGL lib. 
-7. Add resources folder to the COSC3000 folder
-8. Clone https://bitbucket.org/SpartanJ/soil2/src/default/ and extracts the folder
-9. Add SOIL2 folder to the COSC3000 folder
-10. Run main.cpp
+# Compiling the project
+After building SOIL2, the shared and static library located in `/lib/linux`. Per need to export the path or copy those libs into `/usr/lib` so that the compiler could find those.
 
-# Codes
+To compile `planet.cpp`:
+```
+g++ planet.cpp -lGL -lGLEW -lglfw -lassimp -llibsoil2-debug
+```
 
-Codes are adapted from:
+# References
 
-- Learn OpenGL. https://learnopengl.com/
-- Sonar System Youtube Videos. Retrieved from https://www.youtube.com/watch?v=Tz0dq2krCW8&list=PLRtjMdoYXLf6zUMDJVRZYV-6g6n62vet8 
+Please feel free to checkout these awesome tutorials for better understanding of the project.
+
+- [Learn OpenGL](https://learnopengl.com/)
+- [Sonar System Youtube Videos](https://www.youtube.com/watch?v=Tz0dq2krCW8&list=PLRtjMdoYXLf6zUMDJVRZYV-6g6n62vet8)
