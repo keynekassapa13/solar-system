@@ -100,6 +100,7 @@ int main(int argc, const char * argv[]) {
     Model saturnModel("resources/models/saturn/13906_Saturn_v1_l3.obj");
     Model uranusModel("resources/models/uranus/13907_Uranus_v2_l3.obj");
     Model neptuneModel("resources/models/neptune/13908_Neptune_V2_l3.obj");
+    Model ufoModel("resources/models/ufo/ufo.obj");
     
 //    glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
     
@@ -163,6 +164,13 @@ int main(int argc, const char * argv[]) {
         
         glUniformMatrix4fv( glGetUniformLocation( shader.Program, "projection" ), 1, GL_FALSE, glm::value_ptr( projection ) );
         glUniformMatrix4fv( glGetUniformLocation( shader.Program, "view" ), 1, GL_FALSE, glm::value_ptr( view ) );
+
+        //UFO
+        model = glm::mat4(1);
+        model = glm::translate(model, glm::vec3( 15.0f, 0.0f, 15.0f));
+        model = glm::scale( model, glm::vec3( 4.0f * scale ) );
+        glUniformMatrix4fv( glGetUniformLocation( shader.Program, "model" ), 1, GL_FALSE, glm::value_ptr( model ) );
+        ufoModel.Draw( shader );
         
         // MERCURY
         model = glm::mat4(1);
@@ -316,10 +324,6 @@ int main(int argc, const char * argv[]) {
         glUniformMatrix4fv( modelLoc, 1, GL_FALSE, glm::value_ptr( model ) );
         sunModel.Draw( lampShader );
         
-        if (cameraType == "Up") {
-            camera.SetPosition(glm::vec3(-1.438195, 38.160343, 1.159209));
-        }
-        
         glfwSwapBuffers( window );
     }
     
@@ -344,6 +348,14 @@ void DoMovement() {
     
     if ( keys[GLFW_KEY_D] || keys[GLFW_KEY_RIGHT] ) {
         camera.ProcessKeyboard( RIGHT, deltaTime );
+    }
+
+    if ( keys[GLFW_KEY_J]) {
+        camera.ProcessKeyboard( UP, deltaTime );
+    }
+
+    if ( keys[GLFW_KEY_K]) {
+        camera.ProcessKeyboard( DOWN, deltaTime );
     }
     
     if (keys[GLFW_KEY_MINUS]) {
@@ -372,8 +384,6 @@ void DoMovement() {
         cameraType = "Neptune";
     } else if (keys[GLFW_KEY_0]) {
         cameraType = "";
-    } else if (keys[GLFW_KEY_U]) {
-        cameraType = "Up";
     }
     
     if (keys[GLFW_KEY_M]) {
