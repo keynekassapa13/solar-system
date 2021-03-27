@@ -54,7 +54,7 @@ GLuint i = 0;
 bool moving;
 
 int main(int argc, const char * argv[]) {
-    
+
     moving = true;
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -62,17 +62,17 @@ int main(int argc, const char * argv[]) {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-    
+
     GLFWwindow *window = glfwCreateWindow(WIDTH, HEIGHT, "Solar System", nullptr, nullptr);
-    
+
     if ( nullptr == window )
     {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate( );
-        
+
         return EXIT_FAILURE;
     }
-    
+
     glfwMakeContextCurrent( window );
     glfwGetFramebufferSize( window, &SCREEN_WIDTH, &SCREEN_HEIGHT );
     glfwSetKeyCallback( window, KeyCallback );
@@ -85,14 +85,14 @@ int main(int argc, const char * argv[]) {
         std::cout << "Failed to initialize GLEW" << std::endl;
         return EXIT_FAILURE;
     }
-    
+
     glViewport( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT );
     glEnable( GL_DEPTH_TEST );
-    
+
     Shader shader( "resources/shaders/modelLoading.vs", "resources/shaders/modelLoading.frag" );
     Shader directionalShader( "resources/shaders/directional.vs", "resources/shaders/directional.frag" );
     Shader lampShader( "resources/shaders/lamp.vs", "resources/shaders/lamp.frag" );
-    
+
     // Load models
     Model earthModel( "resources/models/earth/Earth.obj" );
     Model space( "resources/models/space/space.obj" );
@@ -105,21 +105,21 @@ int main(int argc, const char * argv[]) {
     Model uranusModel("resources/models/uranus/13907_Uranus_v2_l3.obj");
     Model neptuneModel("resources/models/neptune/13908_Neptune_V2_l3.obj");
     Model ufoModel("resources/models/ufo/ufo.obj");
-    
+
 //    glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-    
-    
+
+
     GLfloat scale = 0.1f;
-    
+
     while( !glfwWindowShouldClose( window ) )
     {
         glm::mat4 projection(1);
         projection = glm::perspective( camera.GetZoom( ), ( float )SCREEN_WIDTH/( float )SCREEN_HEIGHT, 0.1f, 100.0f );
-        
+
         GLfloat currentFrame = glfwGetTime( );
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
-        
+
         if(moving) {
             i++;
         }
@@ -127,37 +127,37 @@ int main(int argc, const char * argv[]) {
         DoMovement( );
         glClearColor( 0.05f, 0.05f, 0.05f, 1.0f );
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-        
-        
+
+
         glm::mat4 view(1);
         view = camera.GetViewMatrix();
-        
+
         directionalShader.Use( );
-        
+
         // Set lights properties
         glUniform3f( glGetUniformLocation( directionalShader.Program, "light.position" ), lightPos.x, lightPos.y, lightPos.z );
         glUniform3f( glGetUniformLocation( directionalShader.Program, "light.ambient" ),  0.2f, 0.2f, 0.2f );
         glUniform3f( glGetUniformLocation( directionalShader.Program, "light.diffuse" ),  1.5f, 1.5f, 1.5f );
         glUniform3f( glGetUniformLocation( directionalShader.Program, "light.specular" ), 0.0f, 0.0f, 0.0f);
-        
+
         glUniformMatrix4fv( glGetUniformLocation( directionalShader.Program, "projection" ), 1, GL_FALSE, glm::value_ptr( projection ) );
         glUniformMatrix4fv( glGetUniformLocation( directionalShader.Program, "view" ), 1, GL_FALSE, glm::value_ptr( view ) );
-        
+
         // Model
-        
+
         // SPACE
         glm::mat4 model(1);
         model = glm::translate( model, glm::vec3( 0.0f, 0.0f, 0.0f) );
         model = glm::scale( model, glm::vec3( 20.0f ) );
         glUniformMatrix4fv( glGetUniformLocation( directionalShader.Program, "model" ), 1, GL_FALSE, glm::value_ptr( model ) );
         space.Draw( directionalShader );
-        
+
         GLfloat angle, radius, x, z;
-        
+
         shader.Use( );
         GLint viewPosLoc  = glGetUniformLocation( shader.Program, "viewPos" );
         glUniform3f( viewPosLoc,  camera.GetPosition( ).x, camera.GetPosition( ).y, camera.GetPosition( ).z );
-        
+
         // Set lights properties
         glUniform3f( glGetUniformLocation( shader.Program, "light.position" ), lightPos.x, lightPos.y, lightPos.z );
         glUniform3f( glGetUniformLocation( shader.Program, "light.ambient" ),  0.2f, 0.2f, 0.2f );
@@ -166,7 +166,7 @@ int main(int argc, const char * argv[]) {
         glUniform1f( glGetUniformLocation( shader.Program, "light.constant" ), 1.0f );
         glUniform1f( glGetUniformLocation( shader.Program, "light.linear" ), 0.02f );
         glUniform1f( glGetUniformLocation( shader.Program, "light.quadratic" ), 0.006f );
-        
+
         glUniformMatrix4fv( glGetUniformLocation( shader.Program, "projection" ), 1, GL_FALSE, glm::value_ptr( projection ) );
         glUniformMatrix4fv( glGetUniformLocation( shader.Program, "view" ), 1, GL_FALSE, glm::value_ptr( view ) );
 
@@ -174,15 +174,21 @@ int main(int argc, const char * argv[]) {
         model = glm::mat4(1);
         model = glm::translate(model, glm::vec3( camera.GetPosition( ).x - 0.5f, camera.GetPosition( ).y - 0.1, camera.GetPosition( ).z - 0.5f));
         model = glm::scale( model, glm::vec3( 2.0f * scale ) );
-        if ( keys[GLFW_KEY_LEFT]) {
+        if ( keys[GLFW_KEY_W]) {
+            model = glm::rotate(model, (GLfloat) (-PI/24), glm::vec3(1.0f, 0.0f, -1.0f));
+        }
+        if ( keys[GLFW_KEY_S]) {
+            model = glm::rotate(model, (GLfloat) (PI/24), glm::vec3(1.0f, 0.0f, -1.0f));
+        }
+        if ( keys[GLFW_KEY_A]) {
             model = glm::rotate(model, (GLfloat) (PI/12), glm::vec3(1.0f, 0.0f, 1.0f));
         }
-        if ( keys[GLFW_KEY_RIGHT]) {
+        if ( keys[GLFW_KEY_D]) {
             model = glm::rotate(model, (GLfloat) (-PI/12), glm::vec3(1.0f, 0.0f, 1.0f));
         }
         glUniformMatrix4fv( glGetUniformLocation( shader.Program, "model" ), 1, GL_FALSE, glm::value_ptr( model ) );
         ufoModel.Draw( shader );
-        
+
         // MERCURY
         model = glm::mat4(1);
         angle = 0.008f * i * speed;
@@ -190,15 +196,15 @@ int main(int argc, const char * argv[]) {
         x = radius * sin(PI * 2 * angle / 360);
         z = radius * cos(PI * 2 * angle / 360);
         model = glm::translate( model, glm::vec3( x, 0.0f, z) );
-        
+
         if (cameraType == "Mercury") {
             camera.SetPosition(glm::vec3(x + 0.5f, 0.0f, z + 0.5f));
         }
-        
+
         model = glm::scale( model, glm::vec3( 0.3f * scale ) );
         glUniformMatrix4fv( glGetUniformLocation( shader.Program, "model" ), 1, GL_FALSE, glm::value_ptr( model ) );
         mercuryModel.Draw( shader );
-        
+
         // VENUS
         model = glm::mat4(1);
         angle = 0.007f * i  * speed;
@@ -207,15 +213,15 @@ int main(int argc, const char * argv[]) {
         z = radius * cos(PI * 2 * angle / 360);
         model = glm::translate( model, glm::vec3( x, 0.0f, z) );
 
-        
+
         if (cameraType == "Venus") {
             camera.SetPosition(glm::vec3(x + 0.5f, 0.0f, z+0.5f));
         }
-        
+
         model = glm::scale( model, glm::vec3( 0.5f * scale ) );
         glUniformMatrix4fv( glGetUniformLocation( shader.Program, "model" ), 1, GL_FALSE, glm::value_ptr( model ) );
         venusModel.Draw( shader );
-        
+
         // EARTH
         model = glm::mat4(1);
         angle = 0.006f * i  * speed;
@@ -223,17 +229,17 @@ int main(int argc, const char * argv[]) {
         x = radius * sin(PI * 2 * angle / 360);
         z = radius * cos(PI * 2 * angle / 360);
         model = glm::translate( model, glm::vec3( x, 0.0f, z) );
-        
+
         if (cameraType == "Earth") {
             camera.SetPosition(glm::vec3(x+0.5f, 0.0f, z+0.5f));
         }
-        
+
         model = glm::scale( model, glm::vec3( 0.5f * scale ) );
         angle = 0.001f * i;
         model = glm::rotate( model, angle, glm::vec3( 0.0f, 0.1f, 0.0f ) );
         glUniformMatrix4fv( glGetUniformLocation( shader.Program, "model" ), 1, GL_FALSE, glm::value_ptr( model ) );
         earthModel.Draw( shader );
-        
+
         // MARS
         model = glm::mat4(1);
         angle = 0.005f * i  * speed;
@@ -241,15 +247,15 @@ int main(int argc, const char * argv[]) {
         x = radius * sin(PI * 2 * angle / 360);
         z = radius * cos(PI * 2 * angle / 360);
         model = glm::translate( model, glm::vec3( x, 0.0f, z) );
-        
+
         if (cameraType == "Mars") {
             camera.SetPosition(glm::vec3(x + 0.5f, 0.0f, z+0.5f));
         }
-        
+
         model = glm::scale( model, glm::vec3( 0.3f * scale ) );
         glUniformMatrix4fv( glGetUniformLocation( shader.Program, "model" ), 1, GL_FALSE, glm::value_ptr( model ) );
         marsModel.Draw( shader );
-        
+
         // JUPITER
         model = glm::mat4(1);
         angle = 0.0045f * i  * speed;
@@ -257,15 +263,15 @@ int main(int argc, const char * argv[]) {
         x = radius * sin(PI * 2 * angle / 360);
         z = radius * cos(PI * 2 * angle / 360);
         model = glm::translate( model, glm::vec3( x, 0.0f, z) );
-        
+
         if (cameraType == "Jupiter") {
             camera.SetPosition(glm::vec3(x + 0.5f, 0.0f, z+2.5f));
         }
-        
+
         model = glm::scale( model, glm::vec3( 4.0f * scale ) );
         glUniformMatrix4fv( glGetUniformLocation( shader.Program, "model" ), 1, GL_FALSE, glm::value_ptr( model ) );
         jupiterModel.Draw( shader );
-        
+
         // SATURN
         model = glm::mat4(1);
         angle = 0.0040f * i * speed;
@@ -273,17 +279,17 @@ int main(int argc, const char * argv[]) {
         x = radius * sin(PI * 2 * angle / 360);
         z = radius * cos(PI * 2 * angle / 360);
         model = glm::translate( model, glm::vec3( x, 0.0f, z) );
-        
+
         if (cameraType == "Saturn") {
             camera.SetPosition(glm::vec3(x + 0.5f, 0.0f, z+2.5f));
         }
-        
+
         model = glm::scale( model, glm::vec3( 0.032f * scale ) );
         angle = 0.0001f * i;
         model = glm::rotate( model, 90.0f + angle, glm::vec3( 0.0f, 0.1f, 0.5f ) );
         glUniformMatrix4fv( glGetUniformLocation( shader.Program, "model" ), 1, GL_FALSE, glm::value_ptr( model ) );
         saturnModel.Draw( shader );
-        
+
         // Uranus
         model = glm::mat4(1);
         angle = 0.0035f * i * speed;
@@ -291,17 +297,17 @@ int main(int argc, const char * argv[]) {
         x = radius * sin(PI * 2 * angle / 360);
         z = radius * cos(PI * 2 * angle / 360);
         model = glm::translate( model, glm::vec3( x, 0.0f, z) );
-        
+
         if (cameraType == "Uranus") {
             camera.SetPosition(glm::vec3(x + 0.5f, 0.0f, z+0.5f));
         }
-        
+
         model = glm::scale( model, glm::vec3( 0.03f * scale ) );
         angle = 0.00001f * i;
         model = glm::rotate( model, 160.0f + angle, glm::vec3( 0.0f, 0.1f, 0.5f ) );
         glUniformMatrix4fv( glGetUniformLocation( shader.Program, "model" ), 1, GL_FALSE, glm::value_ptr( model ) );
         uranusModel.Draw( shader );
-        
+
         // NEPTUNE
         model = glm::mat4(1);
         angle += 0.003f * i * speed;
@@ -309,17 +315,17 @@ int main(int argc, const char * argv[]) {
         x = radius * sin(PI * 2 * angle / 360);
         z = radius * cos(PI * 2 * angle / 360);
         model = glm::translate( model, glm::vec3( x, 0.0f, z) );
-        
+
         if (cameraType == "Neptune") {
             camera.SetPosition(glm::vec3(x + 0.5f, 0.0f, z+2.0f));
         }
-        
+
         model = glm::scale( model, glm::vec3( 0.03f * scale ) );
         angle = 0.00001f * i;
         model = glm::rotate( model, 130.0f + angle, glm::vec3( 0.0f, 0.1f, 0.5f ) );
         glUniformMatrix4fv( glGetUniformLocation( shader.Program, "model" ), 1, GL_FALSE, glm::value_ptr( model ) );
         neptuneModel.Draw( shader );
-        
+
         // SUN
         lampShader.Use( );
         GLint modelLoc = glGetUniformLocation( lampShader.Program, "model" );
@@ -334,29 +340,29 @@ int main(int argc, const char * argv[]) {
         glUniformMatrix4fv( glGetUniformLocation( shader.Program, "model" ), 1, GL_FALSE, glm::value_ptr( model ) );
         glUniformMatrix4fv( modelLoc, 1, GL_FALSE, glm::value_ptr( model ) );
         sunModel.Draw( lampShader );
-        
+
         glfwSwapBuffers( window );
     }
-    
+
     glfwTerminate( );
     return 0;
 }
 
 
 void DoMovement() {
-    
+
     if ( keys[GLFW_KEY_W]) {
         camera.ProcessKeyboard( FORWARD, deltaTime );
     }
-    
+
     if ( keys[GLFW_KEY_S]) {
         camera.ProcessKeyboard( BACKWARD, deltaTime );
     }
-    
+
     if ( keys[GLFW_KEY_A]) {
         camera.ProcessKeyboard( LEFT, deltaTime );
     }
-    
+
     if ( keys[GLFW_KEY_D]) {
         camera.ProcessKeyboard( RIGHT, deltaTime );
     }
@@ -372,11 +378,11 @@ void DoMovement() {
     if (keys[GLFW_KEY_MINUS]) {
         camera.DecreaseSpeed();
     }
-    
+
     if (keys[GLFW_KEY_EQUAL]) {
         camera.IncreaseSpeed();
     }
-    
+
     if (keys[GLFW_KEY_1]) {
         cameraType = "Mercury";
     } else if (keys[GLFW_KEY_2]) {
@@ -396,7 +402,7 @@ void DoMovement() {
     } else if (keys[GLFW_KEY_0]) {
         cameraType = "";
     }
-    
+
     if (keys[GLFW_KEY_M]) {
         speed = speed + 0.1f;
         std::cout << "SPEED : " << speed << std::endl;
@@ -416,7 +422,7 @@ void KeyCallback( GLFWwindow *window, int key, int scancode, int action, int mod
     if ( GLFW_KEY_ESCAPE == key && GLFW_PRESS == action ) {
         glfwSetWindowShouldClose(window, GL_TRUE);
     }
-    
+
     if ( key >= 0 && key < 1024 ) {
         if ( action == GLFW_PRESS ) {
             keys[key] = true;
@@ -432,13 +438,13 @@ void MouseCallback( GLFWwindow *window, double xPos, double yPos ) {
         lastY = yPos;
         firstMouse = false;
     }
-    
+
     GLfloat xOffset = xPos - lastX;
     GLfloat yOffset = lastY - yPos;
-    
+
     lastX = xPos;
     lastY = yPos;
-    
+
     camera.ProcessMouseMovement( xOffset, yOffset );
 }
 
