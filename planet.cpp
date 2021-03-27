@@ -187,7 +187,7 @@ int main(int argc, const char * argv[]) {
             model = glm::rotate(model, (GLfloat) (-PI/12), glm::vec3(1.0f, 0.0f, 1.0f));
         }
         glUniformMatrix4fv( glGetUniformLocation( shader.Program, "model" ), 1, GL_FALSE, glm::value_ptr( model ) );
-        ufoModel.Draw( shader );
+        if (cameraType == "")  ufoModel.Draw( shader );
 
         // MERCURY
         model = glm::mat4(1);
