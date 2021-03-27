@@ -12,6 +12,8 @@ newmtl 13908_Neptune_ring
 	Kd 0.6784 0.6784 0.6784
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.6784 0.6784 0.6784
+	map_Ka 13908_Neptune_planet_diff.jpg
+	map_Kd 13908_Neptune_planet_diff.jpg
 
 newmtl 13908_Neptune_planet
 	Ns 10.0000
