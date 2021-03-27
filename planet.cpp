@@ -27,6 +27,7 @@
 const GLint WIDTH = 800, HEIGHT = 600;
 const double PI = 3.141592653589793238463;
 int SCREEN_WIDTH, SCREEN_HEIGHT;
+const GLfloat MAX_ROLL_ANGLE = PI/12;
 
 // Function prototypes
 void KeyCallback( GLFWwindow *window, int key, int scancode, int action, int mode );
@@ -167,8 +168,14 @@ int main(int argc, const char * argv[]) {
 
         //UFO
         model = glm::mat4(1);
-        model = glm::translate(model, glm::vec3( 15.0f, 0.0f, 15.0f));
-        model = glm::scale( model, glm::vec3( 4.0f * scale ) );
+        model = glm::translate(model, glm::vec3( camera.GetPosition( ).x - 0.5f, camera.GetPosition( ).y - 0.1, camera.GetPosition( ).z - 0.5f));
+        model = glm::scale( model, glm::vec3( 2.0f * scale ) );
+        if ( keys[GLFW_KEY_LEFT]) {
+            model = glm::rotate(model, (GLfloat) (PI/12), glm::vec3(1.0f, 0.0f, 1.0f));
+        }
+        if ( keys[GLFW_KEY_RIGHT]) {
+            model = glm::rotate(model, (GLfloat) (-PI/12), glm::vec3(1.0f, 0.0f, 1.0f));
+        }
         glUniformMatrix4fv( glGetUniformLocation( shader.Program, "model" ), 1, GL_FALSE, glm::value_ptr( model ) );
         ufoModel.Draw( shader );
         
@@ -334,30 +341,30 @@ int main(int argc, const char * argv[]) {
 
 void DoMovement() {
     
-    if ( keys[GLFW_KEY_W] || keys[GLFW_KEY_UP] ) {
+    if ( keys[GLFW_KEY_W]) {
         camera.ProcessKeyboard( FORWARD, deltaTime );
     }
     
-    if ( keys[GLFW_KEY_S] || keys[GLFW_KEY_DOWN] ) {
+    if ( keys[GLFW_KEY_S]) {
         camera.ProcessKeyboard( BACKWARD, deltaTime );
     }
     
-    if ( keys[GLFW_KEY_A] || keys[GLFW_KEY_LEFT] ) {
+    if ( keys[GLFW_KEY_A]) {
         camera.ProcessKeyboard( LEFT, deltaTime );
     }
     
-    if ( keys[GLFW_KEY_D] || keys[GLFW_KEY_RIGHT] ) {
+    if ( keys[GLFW_KEY_D]) {
         camera.ProcessKeyboard( RIGHT, deltaTime );
     }
 
-    if ( keys[GLFW_KEY_J]) {
+    if ( keys[GLFW_KEY_UP]) {
         camera.ProcessKeyboard( UP, deltaTime );
     }
 
-    if ( keys[GLFW_KEY_K]) {
+    if ( keys[GLFW_KEY_DOWN]) {
         camera.ProcessKeyboard( DOWN, deltaTime );
     }
-    
+
     if (keys[GLFW_KEY_MINUS]) {
         camera.DecreaseSpeed();
     }
@@ -408,8 +415,10 @@ void KeyCallback( GLFWwindow *window, int key, int scancode, int action, int mod
     
     if ( key >= 0 && key < 1024 ) {
         if ( action == GLFW_PRESS ) {
+            std::cout << (keys[key]) << endl;
             keys[key] = true;
         } else if ( action == GLFW_RELEASE ) {
+            std::cout << (keys[key]) << endl;
             keys[key] = false;
         }
     }
