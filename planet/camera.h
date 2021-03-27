@@ -29,9 +29,9 @@ enum Camera_Movement {
 // Default camera values
 const GLfloat YAW        = -135.0f;
 const GLfloat PITCH      =  0.0f;
-GLfloat SPEED      =  5.0f;
+GLfloat SPEED            =  5.0f;
 const GLfloat SENSITIVTY =  0.05f; 
-const GLfloat ZOOM       =  45.0f;
+GLfloat ZOOM             =  45.0f;
 
 
 class Camera {
@@ -79,8 +79,6 @@ public:
     void ProcessMouseMovement( GLfloat xOffset, GLfloat yOffset, GLboolean constrainPitch = true ) {
         xOffset *= this->mouseSensitivity;
         yOffset *= this->mouseSensitivity;
-        
-        std::cout << xOffset << std::endl;
         
         this->yaw   += xOffset;
         this->pitch += yOffset;
