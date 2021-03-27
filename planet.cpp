@@ -451,10 +451,10 @@ void MouseCallback( GLFWwindow *window, double xPos, double yPos ) {
 void ScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 {
     GLfloat fov = camera.GetZoom();
-    fov  -= (GLfloat) yoffset * ZOOM_SPEED;
-    if (fov < 1.0f)
-        fov = 1.0f;
-    if (fov > 45.0f)
-        fov = 45.0f;
+    fov -= (GLfloat) yoffset * ZOOM_SPEED;
+    if (fov < 44.55f)
+        fov = 44.55f;
+    if (fov > 45.55f)
+        fov = 45.55f;
     camera.SetZoom(fov);
 }
