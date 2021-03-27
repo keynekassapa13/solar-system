@@ -112,6 +112,11 @@ public:
     GLfloat GetZoom() {
         return this->zoom;
     }
+
+    void SetZoom(GLfloat fov) {
+        this->zoom = fov;
+        
+    }
     
     glm::vec3 GetPosition() {
         return this->position;

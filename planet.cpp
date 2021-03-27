@@ -28,10 +28,12 @@ const GLint WIDTH = 800, HEIGHT = 600;
 const double PI = 3.141592653589793238463;
 int SCREEN_WIDTH, SCREEN_HEIGHT;
 const GLfloat MAX_ROLL_ANGLE = PI/12;
+const GLfloat ZOOM_SPEED = 0.01f;
 
 // Function prototypes
 void KeyCallback( GLFWwindow *window, int key, int scancode, int action, int mode );
 void MouseCallback( GLFWwindow *window, double xPos, double yPos );
+void ScrollCallback( GLFWwindow *window, double xPos, double yPos );
 void DoMovement( );
 
 // Camera
@@ -75,6 +77,7 @@ int main(int argc, const char * argv[]) {
     glfwGetFramebufferSize( window, &SCREEN_WIDTH, &SCREEN_HEIGHT );
     glfwSetKeyCallback( window, KeyCallback );
     glfwSetCursorPosCallback( window, MouseCallback );
+    glfwSetScrollCallback(window, ScrollCallback);
     glfwSetInputMode( window, GLFW_CURSOR, GLFW_CURSOR_DISABLED );
     glewExperimental = GL_TRUE;
     if ( GLEW_OK != glewInit( ) )
@@ -105,13 +108,14 @@ int main(int argc, const char * argv[]) {
     
 //    glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
     
-    glm::mat4 projection(1);
-    projection = glm::perspective( camera.GetZoom( ), ( float )SCREEN_WIDTH/( float )SCREEN_HEIGHT, 0.1f, 100.0f );
     
     GLfloat scale = 0.1f;
     
     while( !glfwWindowShouldClose( window ) )
     {
+        glm::mat4 projection(1);
+        projection = glm::perspective( camera.GetZoom( ), ( float )SCREEN_WIDTH/( float )SCREEN_HEIGHT, 0.1f, 100.0f );
+        
         GLfloat currentFrame = glfwGetTime( );
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
@@ -415,10 +419,8 @@ void KeyCallback( GLFWwindow *window, int key, int scancode, int action, int mod
     
     if ( key >= 0 && key < 1024 ) {
         if ( action == GLFW_PRESS ) {
-            std::cout << (keys[key]) << endl;
             keys[key] = true;
         } else if ( action == GLFW_RELEASE ) {
-            std::cout << (keys[key]) << endl;
             keys[key] = false;
         }
     }
@@ -438,4 +440,15 @@ void MouseCallback( GLFWwindow *window, double xPos, double yPos ) {
     lastY = yPos;
     
     camera.ProcessMouseMovement( xOffset, yOffset );
+}
+
+void ScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
+{
+    GLfloat fov = camera.GetZoom();
+    fov  -= (GLfloat) yoffset * ZOOM_SPEED;
+    if (fov < 1.0f)
+        fov = 1.0f;
+    if (fov > 45.0f)
+        fov = 45.0f;
+    camera.SetZoom(fov);
 }
