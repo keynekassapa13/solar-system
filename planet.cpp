@@ -196,6 +196,7 @@ int main(int argc, const char * argv[]) {
         x = radius * sin(PI * 2 * angle / 360);
         z = radius * cos(PI * 2 * angle / 360);
         model = glm::translate( model, glm::vec3( x, 0.0f, z) );
+        model = glm::rotate(model, (GLfloat) (PI * i / 360 ) , glm::vec3(0.0f, 1.0f, 0.0f));
 
         if (cameraType == "Mercury") {
             camera.SetPosition(glm::vec3(x + 0.5f, 0.0f, z + 0.5f));
@@ -212,6 +213,7 @@ int main(int argc, const char * argv[]) {
         x = radius * sin(PI * 2 * angle / 360);
         z = radius * cos(PI * 2 * angle / 360);
         model = glm::translate( model, glm::vec3( x, 0.0f, z) );
+        model = glm::rotate(model, (GLfloat) (PI * i / 360 ) , glm::vec3(0.0f, 1.0f, 0.0f));
 
 
         if (cameraType == "Venus") {
@@ -229,6 +231,7 @@ int main(int argc, const char * argv[]) {
         x = radius * sin(PI * 2 * angle / 360);
         z = radius * cos(PI * 2 * angle / 360);
         model = glm::translate( model, glm::vec3( x, 0.0f, z) );
+        model = glm::rotate(model, (GLfloat) (PI * i / 360 ) , glm::vec3(0.0f, 1.0f, 0.0f));
 
         if (cameraType == "Earth") {
             camera.SetPosition(glm::vec3(x+0.5f, 0.0f, z+0.5f));
@@ -247,6 +250,7 @@ int main(int argc, const char * argv[]) {
         x = radius * sin(PI * 2 * angle / 360);
         z = radius * cos(PI * 2 * angle / 360);
         model = glm::translate( model, glm::vec3( x, 0.0f, z) );
+        model = glm::rotate(model, (GLfloat) (PI *  i / 360 ) , glm::vec3(0.0f, 1.0f, 0.0f));
 
         if (cameraType == "Mars") {
             camera.SetPosition(glm::vec3(x + 0.5f, 0.0f, z+0.5f));
@@ -263,6 +267,7 @@ int main(int argc, const char * argv[]) {
         x = radius * sin(PI * 2 * angle / 360);
         z = radius * cos(PI * 2 * angle / 360);
         model = glm::translate( model, glm::vec3( x, 0.0f, z) );
+        model = glm::rotate(model, (GLfloat) (PI * i / 360 ) , glm::vec3(0.0f, 1.0f, 0.0f));
 
         if (cameraType == "Jupiter") {
             camera.SetPosition(glm::vec3(x + 0.5f, 0.0f, z+2.5f));
@@ -279,6 +284,7 @@ int main(int argc, const char * argv[]) {
         x = radius * sin(PI * 2 * angle / 360);
         z = radius * cos(PI * 2 * angle / 360);
         model = glm::translate( model, glm::vec3( x, 0.0f, z) );
+        model = glm::rotate(model, (GLfloat) (PI * i / 360 ) , glm::vec3(0.0f, 1.0f, 0.0f));
 
         if (cameraType == "Saturn") {
             camera.SetPosition(glm::vec3(x + 0.5f, 0.0f, z+2.5f));
@@ -297,6 +303,7 @@ int main(int argc, const char * argv[]) {
         x = radius * sin(PI * 2 * angle / 360);
         z = radius * cos(PI * 2 * angle / 360);
         model = glm::translate( model, glm::vec3( x, 0.0f, z) );
+        model = glm::rotate(model, (GLfloat) (PI * i / 360 ) , glm::vec3(0.0f, 1.0f, 0.0f));
 
         if (cameraType == "Uranus") {
             camera.SetPosition(glm::vec3(x + 0.5f, 0.0f, z+0.5f));
@@ -315,6 +322,7 @@ int main(int argc, const char * argv[]) {
         x = radius * sin(PI * 2 * angle / 360);
         z = radius * cos(PI * 2 * angle / 360);
         model = glm::translate( model, glm::vec3( x, 0.0f, z) );
+        model = glm::rotate(model, (GLfloat) (PI * i / 360 ) , glm::vec3(0.0f, 1.0f, 0.0f));
 
         if (cameraType == "Neptune") {
             camera.SetPosition(glm::vec3(x + 0.5f, 0.0f, z+2.0f));
